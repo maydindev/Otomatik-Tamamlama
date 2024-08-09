@@ -25,6 +25,8 @@ export default function ToDoList() {
   /**** Sizi İlgilendiren Bölüm **************************************************************************/
 
   function handleEnter(event) {
+    //console.log(newItemInput)
+    //console.log(event.target.value)
     if (newItemInput.trim()) {
       if (event.key === 'Enter') {
         setListData((prevList) => {
@@ -35,14 +37,16 @@ export default function ToDoList() {
           }
           return [...prevList, newListItem]
         })
-        setNewItemInput('')
+        setNewItemInput("")
+        //console.log(newItemInput)
         scrollToBottom()
-      }
+      }     
     }
   }
 
   function autoComplete() {
     setAutoCompleteRequested(true)
+
   }
   function toggleInputFocus() {
     setInputInFocus((pre) => !pre)
@@ -88,6 +92,7 @@ export default function ToDoList() {
           <input
             type='checkbox'
             name={item.id}
+            checked={item.complete}
             onChange={handleCheckBoxChange}
           />
           <span className='checkmark'></span>
@@ -113,12 +118,15 @@ export default function ToDoList() {
       <div className='to-do-list-container' ref={listContainerRef}>
         {currentList}
         <label className='new-item-label'>
-          <img src='./images/add-item.svg' className={`add-item-icon`} />
+          <img src='./images/add-item.svg' className={`add-item-icon ${inputInFocus ? 'faded' : ''}`} /*className={`add-item-icon`}*/ />
           <input
             className='new-item-input'
             type='text'
+            value={newItemInput}
             onKeyDown={handleEnter}
             onChange={handleNewItemInputChange}
+            onFocus={toggleInputFocus}
+            onBlur={toggleInputFocus}
           />
         </label>
       </div>
